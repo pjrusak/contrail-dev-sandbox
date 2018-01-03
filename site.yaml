@@ -1,0 +1,6 @@
+- hosts: dev-machine
+  tasks:
+    - include: generic_dependencies.yaml
+    - include: build_dependencies.yaml
+    - include: checkout_job_repos.yaml 
+
