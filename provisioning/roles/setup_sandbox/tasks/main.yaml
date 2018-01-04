@@ -1,0 +1,8 @@
+- name: Prepare inventory hosts.yaml used by CI playbooks
+  copy:
+    src: "../templates/inventory"
+    dest: "/home/vagrant/code"
+    mode: 0644
+    owner: vagrant
+    group: vagrant
+
