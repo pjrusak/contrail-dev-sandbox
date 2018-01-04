@@ -5,7 +5,6 @@
   with_items:
     - epel-release
     - git
-    - docker
     - createrepo
     - tree
     - lynx
