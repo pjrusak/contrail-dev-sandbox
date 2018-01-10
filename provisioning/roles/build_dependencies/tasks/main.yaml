@@ -9,6 +9,7 @@
     - patch
     - unzip
     - wget
+    - kernel
     - kernel-devel
     - rpm-build
     - scons
