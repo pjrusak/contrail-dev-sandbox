@@ -4,15 +4,12 @@
     state: present
   with_items:
     - docker
+  notify:
+    - Restart docker service
   become: yes
   become_user: root
 
-- name: Restart docker service
-  service:
-    name: docker
-    state: started
-  become: yes
-  become_user: root
+- meta: flush_handlers
 
 - import_tasks: lighttpd.yaml
 

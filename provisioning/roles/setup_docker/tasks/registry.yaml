@@ -25,16 +25,11 @@
         "insecure-registries": ["{{ local_registry_ip.stdout }}:5000"]
       }
     dest: /etc/docker/daemon.json
-  register: docker_restart
+  notify:
+    - Restart docker service
   when: local_registry_deployed.changed
   become: yes
   become_user: root
 
-- name: Restart docker service
-  service:
-    name: docker
-    state: restarted
-  when: docker_restart.changed
-  become: yes
-  become_user: root
+- meta: flush_handlers
 
