@@ -16,10 +16,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       contrail_sandbox_config.vm.provider "virtualbox" do |vb|
          vb.memory = 8192
          vb.cpus = 4
-      end
-      #contrail_sandbox_config.vm.provision "ansible" do |ansible|
-      #   ansible.playbook = "provisioning/site.yaml"
-      #   ansible.verbose = "vvv"
-      #end
+      end 
+      contrail_sandbox_config.vm.provision "shell", inline: <<-SCRIPT
+         yum install epel-release -y
+         yum install ansible -y
+         yum install vim -y
+      SCRIPT
    end
 end
