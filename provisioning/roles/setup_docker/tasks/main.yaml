@@ -4,66 +4,14 @@
     state: present
   with_items:
     - docker
+  notify:
+    - Restart docker service
   become: yes
   become_user: root
 
-- name: Restart docker service
-  service:
-    name: docker
-    state: started
-  become: yes
-  become_user: root
+- meta: flush_handlers
 
-- name: Start uhttpd container
-  docker:
-    name: local_repo
-    image: fnichol/uhttpd
-    state: started
-    restart_policy: always
-    expose:
-    - 80
-    volumes:
-    - /home/vagrant/rpmbuild/RPMS
-  become: yes
-  become_user: root
+- import_tasks: lighttpd.yaml
 
-- name: Start local docker registry
-  docker:
-    name: local_registry
-    image: registry
-    state: started
-    restart_policy: always
-    expose:
-    - 5000
-  register: local_registry_deployed
-  become: yes
-  become_user: root
-
-- name: Get registry container IP address
-  shell: |
-    docker inspect --format '{''{ .NetworkSettings.IPAddress }''}' local_registry
-  register: local_registry_ip
-  when: local_registry_deployed.changed
-  become: yes
-  become_user: root
-
-- name: Configure insecure local registry
-  copy:
-    content: |
-      {
-        "insecure-registries": ["{{ local_registry_ip.stdout }}:5000"]
-      }
-    dest: /etc/docker/daemon.json
-  register: docker_restart
-  when: local_registry_deployed.changed
-  become: yes
-  become_user: root
-
-- name: Restart docker service
-  service:
-    name: docker
-    state: restarted
-  when: docker_restart.changed
-  become: yes
-  become_user: root
+- import_tasks: registry.yaml
 

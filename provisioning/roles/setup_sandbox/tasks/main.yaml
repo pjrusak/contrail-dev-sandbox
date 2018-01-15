@@ -1,0 +1,18 @@
+- name: Prepare inventory hosts.yaml used by CI playbooks
+  copy:
+    src: "../templates/inventory"
+    dest: "{{ workdir }}/code"
+    mode: 0644
+    owner: "{{ sandbox_owner }}"
+    group: "{{ sandbox_group }}"
+
+- name: Setup config file for Ansible run inside VM
+  template:
+    src: "../templates/ansible.cfg.j2"
+    dest: "{{ workdir }}/.ansible.cfg"
+    mode: 0644
+    owner: "{{ sandbox_owner }}"
+    group: "{{ sandbox_group }}"
+
+# - import_tasks: repo.yaml
+
