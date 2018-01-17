@@ -23,7 +23,7 @@
     published_ports:
       - 6667:80
     volumes:
-      - "{{ workdir }}/rpmbuild/RPMS:/var/www/localhost/htdocs:Z"
+      - "{{ workdir }}/rpmbuild/RPMS:/var/www/localhost/htdocs/pulp/repos/{{ zuul.change }}-{{ zuul.patchset }}:Z"
       - "{{ workdir }}/lighttpd:/etc/lighttpd:Z"
   become: yes
   become_user: root
